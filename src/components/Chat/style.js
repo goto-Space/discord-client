@@ -8,7 +8,7 @@ const Wrapper = styled.div`
 
 const ChatWrapper = styled.div`
   width: calc(100% - 300px);
-  height: calc(100vh - 50px);
+  height: calc(100vh - 85px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;

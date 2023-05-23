@@ -9,7 +9,7 @@ const colorChange = keyframes`
 const UserConnectionWrapper = styled.div`
   background-color: ${Colors.Gray6};
   width: 300px;
-  height: calc(100vh - 50px);
+  height: calc(100vh - 100px);
   padding: 10px;
   overflow-y: scroll;
   -ms-overflow-style: none; /* IE and Edge */
