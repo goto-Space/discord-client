@@ -11,6 +11,9 @@ const SignInWrapper = styled.div`
    border-radius: 25px;
    padding: 20px 30px;
    background-color: ${Colors.Black2};
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const LogoWrapper = styled.div`
