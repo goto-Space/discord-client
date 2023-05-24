@@ -79,7 +79,7 @@ const LoginButton = styled.div`
 `;
 
 const ErrorResponse = styled.p`
-  margin-top: 5px;
+  margin-top: 10px;
   height: 16px;
   font-size: 16px;
   color: ${Colors.DarkRed};
