@@ -6,9 +6,10 @@ const Layout = styled.div`
   align-items: center;
   width: 100vw;
   height: 100vh;
-  background-image: url('/images/space.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
+  gap: 10vw;
+  //background-image: url('/images/space.jpg');
+  //background-size: cover;
+  //background-repeat: no-repeat;
 `;
 
 export default Layout;
