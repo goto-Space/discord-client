@@ -17,7 +17,7 @@ import {
   LinkPart,
 } from './style';
 
-const { ID_EMPTY_ERROR, PASSWORD_EMPTY_ERROR } = SIGN_IN_ERROR_MESSAGE;
+const { ID_EMPTY_ERROR, PASSWORD_EMPTY_ERROR, LOGIN_FAIL_ERROR } = SIGN_IN_ERROR_MESSAGE;
 
 function SignIn() {
   const navigate = useNavigate();
@@ -49,6 +49,7 @@ function SignIn() {
       const loginResponse = await postSignIn(ID, password);
       setResponseState({ ...responseState, ...loginResponse });
       if (loginResponse.status === STATUS_CODES.OK) navigate(URL.GROUP(), { replace: true });
+      else setResponseState({ ...responseState, responseText: LOGIN_FAIL_ERROR });
     } catch (error) {
       console.log(error);
     }
@@ -61,21 +62,10 @@ function SignIn() {
           <Introduction>
             <p>ID 로그인</p>
           </Introduction>
-
           <InputPart>
             <label htmlFor="user_id">아이디</label>
-            {/* <input type="text" id="user_id" /> */}
             <input type="text" id="user_id" value={ID} onInput={handleIDInputChange} />
           </InputPart>
-
-          {/* <InputPart> */}
-          {/*  <label htmlFor="user_password">비밀번호</label> */}
-          {/*  <input */}
-          {/*    type="password" */}
-          {/*    id="user_password" */}
-          {/*  /> */}
-          {/* </InputPart> */}
-
           <InputPart>
             <label htmlFor="user_password">비밀번호</label>
             <input
@@ -86,13 +76,9 @@ function SignIn() {
             />
           </InputPart>
           <ErrorResponse>{checkLogin(status, responseText)}</ErrorResponse>
-          {/* <ErrorResponse>존재하지 않는 유저입니다.</ErrorResponse> */}
-
-          {/* <LoginButton> */}
           <LoginButton onClick={signIn}>
             <p>로그인</p>
           </LoginButton>
-
           <LinkPart>
             <Link to="/passwordinquiry" replace>
               <div>아이디 찾기</div>

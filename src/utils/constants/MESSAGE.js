@@ -14,7 +14,7 @@ const SIGN_UP_ERROR_MESSAGE: MESSAGES = {
 const SIGN_IN_ERROR_MESSAGE: MESSAGES = {
   ID_EMPTY_ERROR: '아이디를 입력해주세요.',
   PASSWORD_EMPTY_ERROR: '비밀번호를 입력해주세요.',
-  LOGIN_FAIL_ERROR: '현재 로그인할 수 없습니다. 나중에 다시 시도해주세요.',
+  LOGIN_FAIL_ERROR: '로그인에 실패하였습니다.',
 };
 
 const TOAST_MESSAGE = {
