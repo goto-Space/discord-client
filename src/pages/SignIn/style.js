@@ -11,6 +11,9 @@ const SignInWrapper = styled.div`
    border-radius: 25px;
    padding: 20px 30px;
    background-color: ${Colors.Black2};
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const LogoWrapper = styled.div`
@@ -79,7 +82,7 @@ const LoginButton = styled.div`
 `;
 
 const ErrorResponse = styled.p`
-  margin-top: 5px;
+  margin-top: 10px;
   height: 16px;
   font-size: 16px;
   color: ${Colors.DarkRed};
