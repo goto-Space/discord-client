@@ -1,5 +1,5 @@
 const Colors = {
-  Blue: '#0055FB',
+  Blue: '#288CC0',
   LightRed: '#EE6762',
   Red: '#FB0000',
   DarkRed: '#AB342E',
@@ -8,6 +8,7 @@ const Colors = {
   Green: '#7CC092',
   Green2: '#3BA55D',
   Black: '#222222',
+  Black2: '#23272A',
   Gray1: '#4F5660',
   Gray2: '#D3D7DB',
   Gray3: '#EBEDEF',
@@ -17,5 +18,7 @@ const Colors = {
   Gray7: '#616061',
   White: '#FFFFFF',
 };
+
+Object.freeze(Colors);
 
 export default Colors;
