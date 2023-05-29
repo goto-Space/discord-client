@@ -2258,7 +2258,6 @@
     semver "^7.3.7"
     tsutils "^3.21.0"
 
-
 "@typescript-eslint/utils@5.59.7", "@typescript-eslint/utils@^5.58.0":
   version "5.59.7"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/utils/-/utils-5.59.7.tgz#7adf068b136deae54abd9a66ba5a8780d2d0f898"
@@ -8459,10 +8458,10 @@ style-loader@^3.3.1:
   resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-3.3.3.tgz#bba8daac19930169c0c9c96706749a597ae3acff"
   integrity sha512-53BiGLXAcll9maCYtZi2RCQZKa8NQQai5C4horqKyRmHj9H7QmcUyucrH+4KW/gBQbXM2AsB0axoEcFZPlfPcw==
 
-styled-components@^6.0.0-rc.2:
-  version "6.0.0-rc.2"
-  resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-6.0.0-rc.2.tgz#926f60b248d68b7bedb2a07930ba4a8530f97f05"
-  integrity sha512-Rtgv4GQu2XrMGybwUqI+uoD5OTeldyedAiO2eVWtM3aF4qUoKTrWN/Y4uHtSlX+DVzXpH7W/DXFH+noKKxui0Q==
+styled-components@^6.0.0-rc.1:
+  version "6.0.0-rc.2-4007"
+  resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-6.0.0-rc.2-4007.tgz#eda157dfaa98281d01f8f2ce727525a1830dfdde"
+  integrity sha512-MfdCEa1s5Qogv0XRkS1u4udh5mLRQR1jceyScjvg0uafQdICHnH81pi22EXRbG6Eqx+Cs3TCtwgOxIt7PTQBCQ==
   dependencies:
     "@babel/cli" "^7.21.0"
     "@babel/core" "^7.21.0"
@@ -8476,6 +8475,7 @@ styled-components@^6.0.0-rc.2:
     "@babel/traverse" "^7.21.2"
     "@emotion/unitless" "^0.8.0"
     css-to-react-native "^3.2.0"
+    postcss "^8.4.23"
     shallowequal "^1.1.0"
     stylis "^4.2.0"
     tslib "^2.5.0"
