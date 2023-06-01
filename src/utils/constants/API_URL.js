@@ -4,9 +4,9 @@ const API_URL = {
     GET_GROUPS: '/api/user/groups',
     GET_OTHER_USER_DATA: (userID: number) => `/api/user/${userID}/profile`,
     GET_PRESIGNED_URL: '/api/user/presignedurl',
-    POST_SIGN_IN: '/api/user/signin',
+    POST_SIGN_IN: '/api/user/login',
     POST_SIGN_OUT: '/api/user/signout',
-    POST_SIGN_UP: '/api/user/signup',
+    POST_SIGN_UP: '/api/user/register',
     POST_EDIT_PROFILE: '/api/user/profile',
   },
   CHANNEL: {
