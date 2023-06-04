@@ -34,7 +34,7 @@ function Channels({ channelType }) {
             channelType={channelType}
             name={name}
           />
-          {channelType === 'meeting' && (
+          {(channelType === 'meeting' || channelType === 'voice') && (
             <MeetingUserList />
           )}
         </div>

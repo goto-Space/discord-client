@@ -1,7 +1,7 @@
 import React from 'react';
 import { ChannelMeetingCountWrapper } from './style';
 
-const MAX_MEETING_USER_COUNT = 5;
+const MAX_MEETING_USER_COUNT = 6;
 
 function ChannelMeetingCount({ meetingUserCount }) {
   return (

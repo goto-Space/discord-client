@@ -13,6 +13,7 @@ function SideBar() {
     <ChannelListWrapper>
       <div>
         <Channels channelType="chatting" />
+        <Channels channelType="voice" />
         <Channels channelType="meeting" />
       </div>
       <Profile />
