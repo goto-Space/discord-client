@@ -12,14 +12,14 @@ function ChannelListItem({
   return (
     <ListItem>
       <div>
-        {channelType === 'meeting' ? (
+        {(channelType === 'meeting' || channelType === 'voice') ? (
           <ChannelMeetingIcon />
         ) : channelType === 'chatting' ? (
           <ChannelChattingIcon />
         ) : null}
         <p>{name}</p>
       </div>
-      {channelType === 'meeting' && !!meetingUserCount && (
+      {(channelType === 'meeting' || channelType === 'voice') && !!meetingUserCount && (
         <ChannelMeetingCount meetingUserCount={meetingUserCount} />
       )}
       <GroupDeleteIcon />
