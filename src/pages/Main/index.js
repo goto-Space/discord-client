@@ -10,7 +10,7 @@ import { Layout, MainWrapper } from './style';
 const EMPTY_MESSAGE = '채널을 고르세요';
 
 function Main() {
-  const selectedChannel = 'empt';
+  const selectedChannel = 'empty';
   return (
     <Layout>
       <SideBar />
