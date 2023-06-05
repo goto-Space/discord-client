@@ -4,6 +4,7 @@ import { ChannelAddIcon, ChannelOpenIcon } from '../../common/Icons';
 import MeetingUserList from './MeetingUserList';
 import ChannelListItem from './ChannelListItem';
 import ChannelCreateModal from '../../Modal/ChannelCreate';
+import ChannelDeleteModal from '../../Modal/ChannelDelete';
 import { ChannelWrapper, ChannelType } from './style';
 
 /*
@@ -22,6 +23,11 @@ function Channels({ channelType }) {
   const channelCreateModalController = {
     hide: () => setShowChannelCreateModal(false),
     show: () => setShowChannelCreateModal(true),
+  };
+  const [showChannelDeleteModal, setShowChannelDeleteModal] = useState(false);
+  const channelDeleteModalController = {
+    hide: () => setShowChannelDeleteModal(false),
+    show: () => setShowChannelDeleteModal(true),
   };
 
   return (
@@ -49,11 +55,13 @@ function Channels({ channelType }) {
               meetingUserCount={userCount}
               channelType={channelType}
               name={name}
+              showChannelDeleteModal={channelDeleteModalController.show}
             />
             <ChannelListItem
               meetingUserCount={userCount}
               channelType={channelType}
               name={name}
+              showChannelDeleteModal={channelDeleteModalController.show}
             />
             {(channelType === 'meeting' || channelType === 'voice') && (
             <MeetingUserList />
@@ -65,6 +73,9 @@ function Channels({ channelType }) {
           initialChannelType={channelToCreate}
           controller={channelCreateModalController}
         />
+        )}
+        {showChannelDeleteModal && (
+          <ChannelDeleteModal controller={channelDeleteModalController} />
         )}
       </>
     </ChannelWrapper>
