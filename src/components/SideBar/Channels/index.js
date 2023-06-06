@@ -5,6 +5,7 @@ import MeetingUserList from './MeetingUserList';
 import ChannelListItem from './ChannelListItem';
 import ChannelCreateModal from '../../Modal/ChannelCreate';
 import ChannelDeleteModal from '../../Modal/ChannelDelete';
+import ChannelInviteModal from '../../Modal/ChannelInvite';
 import { ChannelWrapper, ChannelType } from './style';
 
 /*
@@ -28,6 +29,11 @@ function Channels({ channelType }) {
   const channelDeleteModalController = {
     hide: () => setShowChannelDeleteModal(false),
     show: () => setShowChannelDeleteModal(true),
+  };
+  const [showChannelInviteModal, setShowChannelInviteModal] = useState(false);
+  const channelInviteModalController = {
+    hide: () => setShowChannelInviteModal(false),
+    show: () => setShowChannelInviteModal(true),
   };
 
   return (
@@ -56,12 +62,14 @@ function Channels({ channelType }) {
               channelType={channelType}
               name={name}
               showChannelDeleteModal={channelDeleteModalController.show}
+              showChannelInviteModal={channelInviteModalController.show}
             />
             <ChannelListItem
               meetingUserCount={userCount}
               channelType={channelType}
               name={name}
               showChannelDeleteModal={channelDeleteModalController.show}
+              showChannelInviteModal={channelInviteModalController.show}
             />
             {(channelType === 'meeting' || channelType === 'voice') && (
             <MeetingUserList />
@@ -76,6 +84,9 @@ function Channels({ channelType }) {
         )}
         {showChannelDeleteModal && (
           <ChannelDeleteModal controller={channelDeleteModalController} />
+        )}
+        {showChannelInviteModal && (
+          <ChannelInviteModal controller={channelInviteModalController} />
         )}
       </>
     </ChannelWrapper>
