@@ -15,6 +15,7 @@
     "redux": "^4.2.1",
     "styled-components": "^6.0.0-rc.1",
     "styled-reset": "^4.4.7",
+    "swr": "^2.1.5",
     "web-vitals": "^2.1.4",
     "yarn": "^1.22.19"
   },
