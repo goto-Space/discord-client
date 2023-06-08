@@ -1,23 +1,71 @@
-import React from 'react';
+/* eslint-disable object-curly-newline */
+import React, { useEffect } from 'react';
+import useSWR from 'swr';
+import { useDispatch } from 'react-redux';
 
-import {
-  UserConnectionWrapper, Text, UserImage, UserTile,
-} from './style';
+import { setSelectedUser } from '@redux/selectedUser/slice';
+import { useGroupConnection, useSelectedGroup, useUserdata } from '@hooks/index';
+import { API_URL, SOCKET } from '@constants/index';
+import { getFetcher } from '@api/index';
+import { socket } from '@utils/index';
+import { UserConnectionWrapper, Text, UserImage, UserTile } from './style';
 
 function UserConnection() {
+  const selectedGroup = useSelectedGroup();
+  const groupConnection = useGroupConnection();
+  const { userdata } = useUserdata();
+  const { data = [] } = useSWR(API_URL.GROUP.GET_MEMBERS(selectedGroup?.id), getFetcher);
+
+  const dispatch = useDispatch();
+
+  const onUserSelected = (user, isOnline) => {
+    if (user.loginID === userdata?.loginID) {
+      dispatch(setSelectedUser({ ...userdata, isOnline, isEditable: true }));
+    } else {
+      dispatch(setSelectedUser({ ...user, isOnline, isEditable: false }));
+    }
+  };
+
+  useEffect(() => {
+    socket.emit(SOCKET.GROUP_EVENT.GROUP_ID, selectedGroup?.code, userdata);
+  }, [selectedGroup?.code, userdata]);
+
   return (
     <UserConnectionWrapper>
       <Text>Online</Text>
-      <UserTile>
-        <div>
-          <UserImage
-            src="/images/default_profile.png"
-            alt="user profile"
-          />
-          <div className="on-line" />
-        </div>
-        <div>UserName</div>
-      </UserTile>
+      {groupConnection.map((oneUser, i) => (
+        // eslint-disable-next-line react/no-array-index-key
+        <UserTile key={i} onClick={() => onUserSelected(oneUser, true)}>
+          <div>
+            <UserImage
+              src={oneUser.thumbnail ?? '/images/default_profile.png'}
+              alt="user profile"
+            />
+            <div className="on-line" />
+          </div>
+          <div>{oneUser.username}</div>
+        </UserTile>
+      ))}
+      {data.filter(
+        ({ user }) => !groupConnection.map((v) => v.loginID).includes(user.loginID),
+      ).length !== 0 && <Text>Offline</Text>}
+      {data
+        .filter(
+          ({ user }) => !groupConnection.map((v) => v.loginID).includes(user.loginID),
+        )
+        .map((offLineUser, i) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <UserTile key={i} onClick={() => onUserSelected(offLineUser.user, false)}>
+            <div>
+              <UserImage
+                src={offLineUser.user.thumbnail ?? '/images/default_profile.png'}
+                alt="user profile"
+              />
+              <div className="off-line" />
+            </div>
+            <div>{offLineUser.user.username}</div>
+          </UserTile>
+        ))}
     </UserConnectionWrapper>
   );
 }
