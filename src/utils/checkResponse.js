@@ -1,4 +1,4 @@
-const checkLogin = (status: number, responseMessage: string): string => {
+const checkLogin = (status, responseMessage) => {
   if (status !== 200) {
     return responseMessage;
   }
