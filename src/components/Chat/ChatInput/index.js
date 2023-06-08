@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react';
 
 import { postChat } from '../../../utils/api/index';
-import { TOAST_MESSAGE, STATUS_CODES } from '../../utils/constants/index';
-import { useSelectedChannel, useToast } from '../../hooks/index';
+import { TOAST_MESSAGE, STATUS_CODES } from '../../../utils/constants/index';
+import { useSelectedChannel, useToast } from '../../../hooks/index';
 import { ChatInputWrapper, Wrapper } from './style';
 
 function ChatInput({ onInput }) {
@@ -22,9 +22,9 @@ function ChatInput({ onInput }) {
       const response = await postChat({ channelID: id, content, files: fileURL });
       if (response.status !== STATUS_CODES.OK) throw Error(TOAST_MESSAGE.ERROR.POST_CHAT_FAIL);
       onInput();
-    } catch (e) {
+    } catch ({ message }) {
       fireToast({ message: TOAST_MESSAGE.ERROR.POST_CHAT_FAIL, type: 'warning' });
-      console.error(e.message);
+      console.error(message);
     }
   };
 

@@ -1,5 +1,5 @@
-import { API_URL } from '../utils/constants/index';
 import useSWRInfinite from 'swr/infinite';
+import { API_URL } from '../utils/constants/index';
 
 export const useChats = (id, options) => {
   const { data: chats, ...rest } = useSWRInfinite(

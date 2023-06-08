@@ -1,12 +1,11 @@
 import { useRef, useEffect, useCallback } from 'react';
-import { makeChatSection } from '../utils/index';
-import { useScroll, useSelectedChannel, useChats } from './';
+// eslint-disable-next-line import/no-cycle
+import { useSelectedChannel, useChats } from '.';
 
 const PAGE_SIZE = 20;
 const OBSERVER_ROOT_MARGIN = '300px 0px 0px 0px';
 
 export const useChatInfinite = (chatListRef) => {
-  const { scrollTo } = useScroll(chatListRef);
   const { id } = useSelectedChannel();
   const { chats, setSize, isValidating } = useChats(id);
   const isValidatingRef = useRef(false);
@@ -16,20 +15,6 @@ export const useChatInfinite = (chatListRef) => {
   // eslint-disable-next-line max-len
   isReachingEnd.current = (isEmpty || (chats && chats[chats.length - 1]?.length < PAGE_SIZE)) ?? false;
   const observedTarget = useRef(null);
-
-  useEffect(() => {
-    if (isValidating) return;
-    (async () => {
-      if (chats) {
-        const height = await getChatsHeight(
-          chatListRef,
-          Object.keys(makeChatSection(chats[chats.length - 1])).length,
-        );
-        scrollTo({ top: height });
-      }
-    })();
-  });
-
   const onIntersect = useCallback(
     ([entry]) => {
       if (isValidatingRef.current) return;
@@ -50,8 +35,9 @@ export const useChatInfinite = (chatListRef) => {
     });
     observer.observe(observedTarget.current);
 
+    // eslint-disable-next-line consistent-return
     return () => observer.disconnect();
-  }, []);
+  }, [chatListRef, onIntersect]);
 
   return { chats, observedTarget };
 };

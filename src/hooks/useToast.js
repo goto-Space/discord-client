@@ -1,5 +1,5 @@
-import { useDispatch, useSelector } from 'react-redux';
 import { Buffer } from 'buffer';
+import { useDispatch, useSelector } from 'react-redux';
 import { addToast, popToast } from '../redux/toast/slice';
 
 export const useToast = () => {
@@ -8,7 +8,9 @@ export const useToast = () => {
 
   const fireToast = ({ message, type, duration = 2000 }) => {
     const id = encodeBase64(String(new Date().getTime()).slice(-6));
-    dispatch(addToast({ message, type, duration, id }));
+    dispatch(addToast({
+      message, type, duration, id,
+    }));
     setTimeout(() => dispatch(popToast({ id })), duration + 600);
   };
 

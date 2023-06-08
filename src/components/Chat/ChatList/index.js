@@ -24,7 +24,7 @@ function ChatList({
       {Object.entries(makeChatSection(chats)).map(([day, dayChats]) => (
         <Section key={day}>
           <StickyWrapper>
-            <button>{day}</button>
+            {day}
           </StickyWrapper>
           {dayChats.map((chat) => (
             <ChatItem key={chat.id} chatData={chat} newFetched={isNewFetched?.[chat.id] ?? false} />
