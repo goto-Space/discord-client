@@ -1,8 +1,7 @@
 import { useCallback, useEffect } from 'react';
-import { SOCKET } from '@constants/index';
-import { Socket, socket } from '@utils/index';
-// eslint-disable-next-line import/no-cycle
-import { useScroll, useSelectedChannel, useChats } from '.';
+import { SOCKET } from '../utils/constants/index';
+import { Socket, socket } from '../utils/index';
+import { useScroll, useSelectedChannel, useChats } from './';
 
 const THRESHOLD = 300;
 

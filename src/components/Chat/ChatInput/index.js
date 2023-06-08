@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react';
 
-import { useSelectedChannel, useToast } from '@hooks/index';
-import { postChat } from '@api/index';
-import { TOAST_MESSAGE, STATUS_CODES } from '@constants/index';
+import { postChat } from '../../../utils/api/index';
+import { TOAST_MESSAGE, STATUS_CODES } from '../../utils/constants/index';
+import { useSelectedChannel, useToast } from '../../hooks/index';
 import { ChatInputWrapper, Wrapper } from './style';
 
 function ChatInput({ onInput }) {

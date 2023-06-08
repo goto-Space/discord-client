@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
-import { socket } from '@utils/index';
-import { SOCKET } from '@constants/index';
+import { socket } from '../utils/index';
+import { SOCKET } from '../constants/index';
 
 export const useSocket = () => {
   const [isLoading, setIsLoading] = useState(true);

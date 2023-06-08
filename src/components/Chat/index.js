@@ -1,7 +1,7 @@
 /* eslint-disable object-curly-newline */
 import React, { useCallback, useRef } from 'react';
 
-import { useChatInfinite, useChatSocket, useScroll, useSelectedChat } from '@hooks/index';
+import { useChatInfinite, useChatSocket, useScroll, useSelectedChat } from '../../hooks/index';
 import ChatInput from './ChatInput';
 import ChatList from './ChatList';
 import { ChatWrapper, Wrapper, ChatInputWrapper } from './style';

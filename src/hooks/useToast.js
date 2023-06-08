@@ -1,8 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
-
-// eslint-disable-next-line import/no-unresolved
-import { addToast, popToast } from '@redux/toast/slice';
 import { Buffer } from 'buffer';
+import { addToast, popToast } from '../redux/toast/slice';
 
 export const useToast = () => {
   const dispatch = useDispatch();

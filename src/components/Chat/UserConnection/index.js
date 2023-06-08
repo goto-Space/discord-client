@@ -1,4 +1,3 @@
-/* eslint-disable object-curly-newline */
 import React, { useEffect } from 'react';
 import useSWR from 'swr';
 import { useDispatch } from 'react-redux';
@@ -6,15 +5,14 @@ import { useDispatch } from 'react-redux';
 import { setSelectedUser } from '@redux/selectedUser/slice';
 import { useGroupConnection, useSelectedGroup, useUserdata } from '@hooks/index';
 import { API_URL, SOCKET } from '@constants/index';
-import { getFetcher } from '@api/index';
-import { socket } from '@utils/index';
+import { socket } from '../../../utils/index';
 import { UserConnectionWrapper, Text, UserImage, UserTile } from './style';
 
 function UserConnection() {
   const selectedGroup = useSelectedGroup();
   const groupConnection = useGroupConnection();
   const { userdata } = useUserdata();
-  const { data = [] } = useSWR(API_URL.GROUP.GET_MEMBERS(selectedGroup?.id), getFetcher);
+  const { data = [] } = useSWR(API_URL.GROUP.GET_MEMBERS(selectedGroup?.id));
 
   const dispatch = useDispatch();
 

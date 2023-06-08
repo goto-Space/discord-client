@@ -1,6 +1,6 @@
-import { useRef, useEffect, useCallback, useLayoutEffect } from 'react';
-import { makeChatSection, getChatsHeight } from '@utils/index';
-import { useScroll, useSelectedChannel, useChats } from '.';
+import { useRef, useEffect, useCallback } from 'react';
+import { makeChatSection } from '../utils/index';
+import { useScroll, useSelectedChannel, useChats } from './';
 
 const PAGE_SIZE = 20;
 const OBSERVER_ROOT_MARGIN = '300px 0px 0px 0px';
@@ -13,9 +13,9 @@ export const useChatInfinite = (chatListRef) => {
   isValidatingRef.current = isValidating;
   const isEmpty = !chats?.length;
   const isReachingEnd = useRef(false);
-  isReachingEnd.current =
-    (isEmpty || (chats && chats[chats.length - 1]?.length < PAGE_SIZE)) ?? false;
-  const observedTarget = useRef<HTMLDivElement>(null);
+  // eslint-disable-next-line max-len
+  isReachingEnd.current = (isEmpty || (chats && chats[chats.length - 1]?.length < PAGE_SIZE)) ?? false;
+  const observedTarget = useRef(null);
 
   useEffect(() => {
     if (isValidating) return;
@@ -28,7 +28,7 @@ export const useChatInfinite = (chatListRef) => {
         scrollTo({ top: height });
       }
     })();
-  }, [isValidating]);
+  });
 
   const onIntersect = useCallback(
     ([entry]) => {
