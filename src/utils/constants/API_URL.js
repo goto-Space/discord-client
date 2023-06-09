@@ -15,13 +15,14 @@ const API_URL = {
       return `/api/channel/${channelID}?page=${index + 1}`;
     },
     POST_CHAT: (channelID: number) => `/api/channel/${channelID}/create`,
+    POST_CREATE_CHANNEL: '/api/channels/',
     POST_CHAT_LIKE: (chatID: number) => `/api/chat/${chatID}/reaction`,
   },
   GROUP: {
     GET_MEMBERS: (groupID: number) => `/api/group/${groupID}/members`,
     POST_JOIN: '/api/group/join',
     POST_CREATE_GROUP: '/api/group/create',
-    POST_CREATE_CHANNEL: (groupID: number) => `/api/group/${groupID}/channel/create`,
+
     DELETE_GROUP: (groupID: number) => `/api/group/${groupID}`,
     DELETE_CHANNEL: (groupID: number, channelType: 'chatting' | 'meeting', channelID: number) => `/api/group/${groupID}/${channelType}/${channelID}`,
   },

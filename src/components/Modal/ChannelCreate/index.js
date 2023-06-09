@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { setSelectedChannel } from '../../../redux/selectedChannel/slice';
 import Colors from '../../../styles/Colors';
 import { CHANNEL_TYPE, URL } from '../../../utils/constants/index';
-import { postCreateChannel } from '../../../utils/api/postCreateChannel';
+import { postCreateChannel } from '../../../utils/api/index';
 import { ChannelChattingIcon, ChannelMeetingIcon } from '../../common/Icons';
 import ChannelTypeItem from './ChannelTypeItem';
 import Modal from '..';
@@ -20,20 +20,20 @@ export default function ChannelCreateModal({ initialChannelType, controller }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  // eslint-disable-next-line consistent-return
   const createChannel = async () => {
     const response = await postCreateChannel({
-      userID,
       channelType,
       channelName,
     });
     const createdChannel = await response.json();
     controller.hide();
     if (channelType === CHANNEL_TYPE.CHATTING) {
-      navigate(URL.CHANNEL(userID, channelType, createdChannel.id), { replace: true });
+      navigate(URL.CHANNEL(userID, channelType, createdChannel.channelId), { replace: true });
       dispatch(
         setSelectedChannel({
           type: channelType,
-          id: createdChannel.id,
+          id: createdChannel.channelId,
           name: createdChannel.name,
         }),
       );
