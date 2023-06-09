@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { ChannelAddIcon, ChannelOpenIcon } from '../../common/Icons';
+import { ChannelAddIcon, ChannelOpenIcon, GroupAddIcon } from '../../common/Icons';
 import MeetingUserList from './MeetingUserList';
 import ChannelListItem from './ChannelListItem';
 import ChannelCreateModal from '../../Modal/ChannelCreate';
@@ -25,11 +25,13 @@ function Channels({ channelType }) {
     hide: () => setShowChannelCreateModal(false),
     show: () => setShowChannelCreateModal(true),
   };
+
   const [showChannelDeleteModal, setShowChannelDeleteModal] = useState(false);
   const channelDeleteModalController = {
     hide: () => setShowChannelDeleteModal(false),
     show: () => setShowChannelDeleteModal(true),
   };
+
   const [showChannelInviteModal, setShowChannelInviteModal] = useState(false);
   const channelInviteModalController = {
     hide: () => setShowChannelInviteModal(false),
@@ -49,6 +51,12 @@ function Channels({ channelType }) {
             </p>
           </div>
           <ChannelAddIcon
+            onClick={() => {
+              setChannelToCreate(channelType);
+              channelCreateModalController.show();
+            }}
+          />
+          <GroupAddIcon
             onClick={() => {
               setChannelToCreate(channelType);
               channelCreateModalController.show();

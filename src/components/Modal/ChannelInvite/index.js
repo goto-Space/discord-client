@@ -4,7 +4,7 @@ import { useSelectedChannel } from '../../../hooks/index';
 import Colors from '../../../styles/Colors';
 import Modal from '..';
 import { Input } from './style';
-import { postJoinChannel } from '../../../utils/api/postJoinChannel';
+import { postJoinChannel } from '../../../utils/api/index';
 
 function ChannelInviteModal({ controller: { hide, show } }) {
   const selectedChannel = useSelectedChannel();
