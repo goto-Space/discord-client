@@ -7,42 +7,13 @@ import { setSelectedChannel } from '../../../redux/selectedChannel/slice';
 import Colors from '../../../styles/Colors';
 import { CHANNEL_TYPE, URL } from '../../../utils/constants/index';
 import { postCreateChannel } from '../../../utils/api/index';
-import { ChannelChattingIcon, ChannelMeetingIcon } from '../../common/Icons';
-import ChannelTypeItem from './ChannelTypeItem';
+// import { ChannelChattingIcon, ChannelMeetingIcon } from '../../common/Icons';
+// import ChannelTypeItem from './ChannelTypeItem';
 import Modal from '..';
 import { Label, Wrapper, Input } from './style';
-
-// UserID
-export default function ChannelCreateModal({ initialChannelType, controller }) {
-  const userID = 1234;
-  const [channelType, setChannelType] = useState(initialChannelType);
-  const [channelName, setChannelName] = useState('');
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  // eslint-disable-next-line consistent-return
-  const createChannel = async () => {
-    const response = await postCreateChannel({
-      channelType,
-      channelName,
-    });
-    const createdChannel = await response.json();
-    controller.hide();
-    if (channelType === CHANNEL_TYPE.CHATTING) {
-      navigate(URL.CHANNEL(userID, channelType, createdChannel.channelId), { replace: true });
-      dispatch(
-        setSelectedChannel({
-          type: channelType,
-          id: createdChannel.channelId,
-          name: createdChannel.name,
-        }),
-      );
-    }
-  };
-  const ChannelCreateForm = (
-    <Wrapper>
+/*
       <Label>채널 유형</Label>
-      <ChannelTypeItem
+<ChannelTypeItem
         setChannelType={setChannelType}
         channelType={CHANNEL_TYPE.CHATTING}
         isSelected={channelType === CHANNEL_TYPE.CHATTING}
@@ -66,6 +37,37 @@ export default function ChannelCreateModal({ initialChannelType, controller }) {
         title="화상 채널"
         subTitle="화상통화해요"
       />
+ */
+// UserID
+export default function ChannelCreateModal({ channelType, controller, addChannel }) {
+  const userID = 1234;
+  const [channelName, setChannelName] = useState('');
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  // eslint-disable-next-line consistent-return
+  const createChannel = async () => {
+    const response = await postCreateChannel({
+      channelType,
+      channelName,
+    });
+    const tempChannel = { name: channelName, id: 1 };
+    addChannel(tempChannel);
+    controller.hide();
+    const createdChannel = await response.json();
+    if (channelType === CHANNEL_TYPE.CHATTING) {
+      navigate(URL.CHANNEL(userID, channelType, createdChannel.channelId), { replace: true });
+      dispatch(
+        setSelectedChannel({
+          type: channelType,
+          id: createdChannel.channelId,
+          name: createdChannel.name,
+        }),
+      );
+    }
+  };
+  const ChannelCreateForm = (
+    <Wrapper>
       <Label>채널 이름</Label>
       <Input
         onChange={(e) => {
@@ -77,7 +79,7 @@ export default function ChannelCreateModal({ initialChannelType, controller }) {
   return (
     <Modal
       props={{
-        title: '채널 만들기',
+        title: `${channelType} 채널 만들기`,
         middleContent: ChannelCreateForm,
         bottomRightButton: {
           text: '만들기',

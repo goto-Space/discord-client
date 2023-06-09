@@ -11,7 +11,7 @@ import { useSelectedChannel } from '../../../hooks/index';
 import Modal from '..';
 import { AlertWrapper } from './style';
 
-export default function ChannelDeleteModal({ controller }) {
+export default function ChannelDeleteModal({ controller, removeChannel }) {
   const groupID = 1234;
   const selectedChannel = useSelectedChannel();
   const dispatch = useDispatch();
@@ -24,10 +24,11 @@ export default function ChannelDeleteModal({ controller }) {
       channelType: selectedChannel.type,
       channelID: selectedChannel.id,
     });
+    removeChannel(selectedChannel.name);
+    controller.hide();
     if (response.status === 200) {
       dispatch(resetSelectedChannel());
       dispatch(resetSelectedChat());
-      controller.hide();
       navigate(URL.GROUP(groupID), { replace: true });
     }
   };

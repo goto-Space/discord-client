@@ -8,7 +8,6 @@ import {
 import { useSelectedChannel } from '../../../../hooks/index';
 import { URL } from '../../../../utils/constants/index';
 import { ListItem } from './style';
-import ChannelMeetingCount from './ChannelMeetingCount';
 import { setSelectedChannel } from '../../../../redux/selectedChannel/slice';
 
 const MAX_MEETING_USER_COUNT = 6;
@@ -16,16 +15,17 @@ function ChannelListItem({
   channelType,
   meetingUserCount,
   name,
+  id,
   showChannelDeleteModal,
   showChannelInviteModal,
 }) {
   const groupID = 1234;
-  const { id, type } = useSelectedChannel();
+  const { type } = useSelectedChannel();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const joinChannel = () => {
-    if (meetingUserCount >= MAX_MEETING_USER_COUNT && channelType === 'meeting') return;
+    if (meetingUserCount >= MAX_MEETING_USER_COUNT && channelType === 'VIDEO') return;
     navigate(URL.CHANNEL(groupID, channelType, id), { replace: true });
     dispatch(setSelectedChannel({ type: channelType, id, name }));
   };
@@ -34,16 +34,13 @@ function ChannelListItem({
       onClick={joinChannel}
     >
       <div>
-        {(channelType === 'meeting' || channelType === 'voice') ? (
+        {(channelType === 'VIDEO' || channelType === 'VOICE_ONLY') ? (
           <ChannelMeetingIcon />
-        ) : channelType === 'chatting' ? (
+        ) : channelType === 'TEXT' ? (
           <ChannelChattingIcon />
         ) : null}
         <p>{name}</p>
       </div>
-      {(channelType === 'meeting' || channelType === 'voice') && !!meetingUserCount && (
-        <ChannelMeetingCount meetingUserCount={meetingUserCount} />
-      )}
       <ChannelAddIcon
         onClick={(e) => {
           e.preventDefault();

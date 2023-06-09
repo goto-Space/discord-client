@@ -15,11 +15,11 @@ interface MeetingUsers {
 */
 
 function Channels({ channelType }) {
-  const name = '힘들다';
   const userCount = 3;
+  const [channels, setChannels] = useState([]);
   // const [meetingUser, setMeetingUser] = useState < MeetingUsers > ({});
   // eslint-disable-next-line no-bitwise,no-self-compare
-  const [channelToCreate, setChannelToCreate] = useState('chatting');
+  // const [channelToCreate, setChannelToCreate] = useState('TEXT');
   const [showChannelCreateModal, setShowChannelCreateModal] = useState(false);
   const channelCreateModalController = {
     hide: () => setShowChannelCreateModal(false),
@@ -38,6 +38,14 @@ function Channels({ channelType }) {
     show: () => setShowChannelInviteModal(true),
   };
 
+  const addChannel = (channel) => {
+    setChannels([...channels, channel]);
+  };
+
+  const deleteChannel = (name) => {
+    setChannels(channels.filter((channel) => channel.name !== name));
+  };
+
   return (
     <ChannelWrapper>
       <>
@@ -52,46 +60,43 @@ function Channels({ channelType }) {
           </div>
           <ChannelAddIcon
             onClick={() => {
-              setChannelToCreate(channelType);
               channelCreateModalController.show();
             }}
           />
           <GroupAddIcon
             onClick={() => {
-              setChannelToCreate(channelType);
               channelCreateModalController.show();
             }}
           />
         </ChannelType>
         <ul>
-          <div>
-            <ChannelListItem
-              meetingUserCount={userCount}
-              channelType={channelType}
-              name={name}
-              showChannelDeleteModal={channelDeleteModalController.show}
-              showChannelInviteModal={channelInviteModalController.show}
-            />
-            <ChannelListItem
-              meetingUserCount={userCount}
-              channelType={channelType}
-              name={name}
-              showChannelDeleteModal={channelDeleteModalController.show}
-              showChannelInviteModal={channelInviteModalController.show}
-            />
-            {(channelType === 'meeting' || channelType === 'voice') && (
-            <MeetingUserList />
-            )}
-          </div>
+          {channels.map((channel) => (
+            <div key={channel.id}>
+              <ChannelListItem
+                meetingUserCount={userCount}
+                channelType={channelType}
+                id={channel.id}
+                name={channel.name}
+                showChannelDeleteModal={channelDeleteModalController.show}
+                showChannelInviteModal={channelInviteModalController.show}
+              />
+              {(channelType === 'VOICE_ONLY') && (
+                <MeetingUserList />)}
+            </div>
+          ))}
         </ul>
-        {channelToCreate && showChannelCreateModal && (
+        {showChannelCreateModal && (
         <ChannelCreateModal
-          initialChannelType={channelToCreate}
+          channelType={channelType}
           controller={channelCreateModalController}
+          addChannel={addChannel}
         />
         )}
         {showChannelDeleteModal && (
-          <ChannelDeleteModal controller={channelDeleteModalController} />
+          <ChannelDeleteModal
+            controller={channelDeleteModalController}
+            removeChannel={deleteChannel}
+          />
         )}
         {showChannelInviteModal && (
           <ChannelInviteModal controller={channelInviteModalController} />
