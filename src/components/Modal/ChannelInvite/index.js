@@ -9,7 +9,7 @@ import { getChannelInvitationCode } from '../../../utils/api';
 
 function ChannelInviteModal({ controller: { hide, show } }) {
   const { id } = useSelectedChannel();
-  const [channelCode, setchannelCode] = useState('');
+  const [channelCode, setchannelCode] = useState('눌러서 코드를 확인하세요');
   const { fireToast } = useToast();
   const channelId = id;
 
@@ -30,6 +30,7 @@ function ChannelInviteModal({ controller: { hide, show } }) {
   const pasteGroupCode = async () => {
     try {
       await window.navigator.clipboard.writeText(channelCode);
+      hide();
     } catch (error) {
       fireToast({ message: TOAST_MESSAGE.ERROR.GROUP_CODE_COPY, type: 'warning' });
     }

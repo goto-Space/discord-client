@@ -24,7 +24,7 @@ export default function ChannelDeleteModal({ controller, removeChannel }) {
       const response = await deleteChannel({
         channelID: id,
       });
-      if (response.status === 200) {
+      if (response.status === 204) {
         removeChannel(id);
         controller.hide();
         dispatch(resetSelectedChannel());

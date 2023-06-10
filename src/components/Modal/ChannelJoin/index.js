@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { resetSelectedChannel } from '../../../redux/selectedChannel/slice';
-import { postJoinChannel } from '../../../utils/api/index';
+import { setSelectedChannel } from '../../../redux/selectedChannel/slice';
+import { postJoinChannel, getChannelById } from '../../../utils/api/index';
 import Colors from '../../../styles/Colors';
-import { resetSelectedChat } from '../../../redux/selectedChat/slice';
-import { TOAST_MESSAGE, URL } from '../../../utils/constants/index';
+import { TOAST_MESSAGE, URL, CHANNEL_TYPE } from '../../../utils/constants/index';
 import Modal from '..';
 import { Input } from './style';
 import { useToast } from '../../../hooks/index';
 
 function ChannelJoinModal({ controller: { hide, show }, channelType, addChannel }) {
+  const userId = 1234;
   const [channelCode, setChannelCode] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -19,7 +19,6 @@ function ChannelJoinModal({ controller: { hide, show }, channelType, addChannel 
   const updateChannelCode = (newChannelCode: string) => {
     setChannelCode(newChannelCode);
   };
-  const channelId = 3;
 
   const finishModal = () => {
     setChannelCode('');
@@ -30,20 +29,35 @@ function ChannelJoinModal({ controller: { hide, show }, channelType, addChannel 
     // Change this api
     const response = await postJoinChannel({
       channelType,
-      channelId,
       channelCode,
     });
     switch (response.status) {
       case 200:
         // eslint-disable-next-line no-case-declarations
-        const channel = await response.json();
-        dispatch(resetSelectedChannel());
-        dispatch(resetSelectedChat());
-        finishModal();
-        navigate(URL.GROUP(channel.id), { replace: true });
-        fireToast({ message: TOAST_MESSAGE.SUCCESS.GROUP_INVITATION, type: 'success' });
-        // Channel add => Change logic
-        addChannel(3);
+        try {
+          const { channelId } = await response.json();
+          const secResponse = await getChannelById(channelId);
+          const channel = await secResponse.json();
+          const newChannel = { name: channel.name, id: channel.id };
+
+          finishModal();
+          addChannel(newChannel);
+          if (channelType === CHANNEL_TYPE.CHATTING) {
+            navigate(URL.CHANNEL(userId, channelType, newChannel.id), { replace: true });
+            dispatch(
+              setSelectedChannel({
+                type: channelType,
+                id: newChannel.id,
+                name: newChannel.name,
+              }),
+            );
+          }
+
+          fireToast({ message: TOAST_MESSAGE.SUCCESS.GROUP_INVITATION, type: 'success' });
+          // Channel add => Change logic
+        } catch (e) {
+          fireToast({ message: TOAST_MESSAGE.ERROR.GROUP_INVITATION, type: 'warning' });
+        }
         break;
       case 400:
         // eslint-disable-next-line no-case-declarations
