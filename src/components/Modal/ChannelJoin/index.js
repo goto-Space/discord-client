@@ -11,7 +11,7 @@ import Modal from '..';
 import { Input } from './style';
 import { useToast } from '../../../hooks/index';
 
-function ChannelJoinModal({ controller: { hide, show } }) {
+function ChannelJoinModal({ controller: { hide, show }, channelType }) {
   const [channelCode, setChannelCode] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -57,7 +57,7 @@ function ChannelJoinModal({ controller: { hide, show } }) {
   return (
     <Modal
       props={{
-        title: '채널 참가',
+        title: `${channelType}채널 참가`,
         subTitle: '초대 코드를 입력하세요',
         middleContent: InputComponent,
         bottomRightButton: {

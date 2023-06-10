@@ -107,7 +107,12 @@ function Channels({ channelType }) {
         {showChannelInviteModal && (
           <ChannelInviteModal controller={channelInviteModalController} />
         )}
-        {showChannelJoinModal && (<ChannelJoinModal controller={channelJoinModalController} />)}
+        {showChannelJoinModal && (
+        <ChannelJoinModal
+          controller={channelJoinModalController}
+          channelType={channelType}
+        />
+        )}
       </>
     </ChannelWrapper>
   );
