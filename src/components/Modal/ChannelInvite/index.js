@@ -1,39 +1,52 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import { useSelectedChannel } from '../../../hooks/index';
+import { useSelectedChannel, useToast } from '../../../hooks/index';
+import { TOAST_MESSAGE } from '../../../utils/constants';
 import Colors from '../../../styles/Colors';
 import Modal from '..';
-import { Input } from './style';
-import { postJoinChannel } from '../../../utils/api/index';
+import { CodeWrapper } from './style';
+import { getChannelInvitationCode } from '../../../utils/api';
 
 function ChannelInviteModal({ controller: { hide, show } }) {
   const selectedChannel = useSelectedChannel();
-  const [userId, setUserId] = useState('');
-  const updateUserId = (newUserId: string) => {
-    setUserId(newUserId);
+  // const [channelCode, setchannelCode] = useState('');
+  const { fireToast } = useToast();
+  const channelId = selectedChannel.id;
+  const code = '123';
+
+  // eslint-disable-next-line consistent-return
+  const getChannelCode = async () => {
+    const response = await getChannelInvitationCode(channelId);
+    if (response.status !== 200) {
+      return fireToast({ message: TOAST_MESSAGE.ERROR.CHANNEL_CREATE, type: 'warning' });
+    }
+    try {
+      const channelInvitationCode = await response.json();
+      // setchannelCode(channelInvitationCode.invitationCode);
+      return channelInvitationCode.invitationCode;
+    } catch (e) {
+      fireToast({ message: TOAST_MESSAGE.ERROR.CHANNEL_CREATE, type: 'warning' });
+    }
   };
 
-  const joinChannel = async () => {
-    await postJoinChannel({ userId, channelId: selectedChannel.id });
+  const pasteGroupCode = async () => {
+    try {
+      await window.navigator.clipboard.writeText(code);
+    } catch (error) {
+      fireToast({ message: TOAST_MESSAGE.ERROR.GROUP_CODE_COPY, type: 'warning' });
+    }
   };
-
-  const InputComponent = (
-    <Input
-      onChange={(e) => updateUserId(e.target.value)}
-      placeholder="유저 아이디를 입력해주세요"
-      value={userId}
-    />
-  );
+  const CodeComponent = <CodeWrapper onClick={getChannelCode}>{code}</CodeWrapper>;
 
   return (
     <Modal
       props={{
         title: '채널 초대',
-        middleContent: InputComponent,
+        middleContent: CodeComponent,
         bottomRightButton: {
-          text: '채널 초대하기',
+          text: '초대 코드 복사하기',
           color: Colors.Blue,
-          onClickHandler: joinChannel,
+          onClickHandler: pasteGroupCode,
         },
       }}
       controller={{ hide, show }}

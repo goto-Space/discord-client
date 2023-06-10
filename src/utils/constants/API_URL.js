@@ -14,6 +14,7 @@ const API_URL = {
       if (prevData && !prevData.length) return null;
       return `/api/channel/${channelID}?page=${index + 1}`;
     },
+    GET_CHANNEL_INVITATION_CODE: (channelID) => `/api/channels/${channelID}/invitation-code`,
     POST_CHAT: (channelID: number) => `/api/channel/${channelID}/create`,
     POST_CREATE_CHANNEL: '/api/channels/',
     POST_CHAT_LIKE: (chatID: number) => `/api/chat/${chatID}/reaction`,

@@ -1,12 +1,15 @@
 import styled from 'styled-components';
 import Colors from '../../../styles/Colors';
 
-const Input = styled.input`
-  padding: 12px;
-  border-radius: 6px;
-  border: none;
-  background-color: ${Colors.Gray3};
-  width: 90%;
+const CodeWrapper = styled.div`
+  padding: 16px 20px;
+  background-color: ${Colors.Gray6};
+  border-radius: 12px;
+  margin: 12px 0;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
-export { Input };
+export { CodeWrapper };

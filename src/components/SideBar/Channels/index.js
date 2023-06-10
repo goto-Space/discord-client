@@ -6,6 +6,7 @@ import ChannelListItem from './ChannelListItem';
 import ChannelCreateModal from '../../Modal/ChannelCreate';
 import ChannelDeleteModal from '../../Modal/ChannelDelete';
 import ChannelInviteModal from '../../Modal/ChannelInvite';
+import ChannelJoinModal from '../../Modal/ChannelJoin';
 import { ChannelWrapper, ChannelType } from './style';
 
 /*
@@ -24,6 +25,11 @@ function Channels({ channelType }) {
   const channelCreateModalController = {
     hide: () => setShowChannelCreateModal(false),
     show: () => setShowChannelCreateModal(true),
+  };
+  const [showChannelJoinModal, setShowChannelJoinModal] = useState(false);
+  const channelJoinModalController = {
+    hide: () => setShowChannelJoinModal(false),
+    show: () => setShowChannelJoinModal(true),
   };
 
   const [showChannelDeleteModal, setShowChannelDeleteModal] = useState(false);
@@ -60,7 +66,7 @@ function Channels({ channelType }) {
           </div>
           <ChannelAddIcon
             onClick={() => {
-              channelCreateModalController.show();
+              channelJoinModalController.show();
             }}
           />
           <GroupAddIcon
@@ -101,6 +107,7 @@ function Channels({ channelType }) {
         {showChannelInviteModal && (
           <ChannelInviteModal controller={channelInviteModalController} />
         )}
+        {showChannelJoinModal && (<ChannelJoinModal controller={channelJoinModalController} />)}
       </>
     </ChannelWrapper>
   );

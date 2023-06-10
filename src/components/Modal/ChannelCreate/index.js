@@ -5,12 +5,13 @@ import { useNavigate } from 'react-router-dom';
 
 import { setSelectedChannel } from '../../../redux/selectedChannel/slice';
 import Colors from '../../../styles/Colors';
-import { CHANNEL_TYPE, URL } from '../../../utils/constants/index';
+import { CHANNEL_TYPE, URL, TOAST_MESSAGE } from '../../../utils/constants/index';
 import { postCreateChannel } from '../../../utils/api/index';
 // import { ChannelChattingIcon, ChannelMeetingIcon } from '../../common/Icons';
 // import ChannelTypeItem from './ChannelTypeItem';
 import Modal from '..';
 import { Label, Wrapper, Input } from './style';
+import { useToast } from '../../../hooks';
 /*
       <Label>채널 유형</Label>
 <ChannelTypeItem
@@ -44,6 +45,7 @@ export default function ChannelCreateModal({ channelType, controller, addChannel
   const [channelName, setChannelName] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { fireToast } = useToast();
 
   // eslint-disable-next-line consistent-return
   const createChannel = async () => {
@@ -51,9 +53,12 @@ export default function ChannelCreateModal({ channelType, controller, addChannel
       channelType,
       channelName,
     });
-    const tempChannel = { name: channelName, id: 1 };
-    addChannel(tempChannel);
-    controller.hide();
+    if (response.status !== 200) {
+      const tempChannel = { name: channelName, id: 1 };
+      addChannel(tempChannel);
+      controller.hide();
+      return fireToast({ message: TOAST_MESSAGE.ERROR.CHANNEL_CREATE, type: 'warning' });
+    }
     const createdChannel = await response.json();
     if (channelType === CHANNEL_TYPE.CHATTING) {
       navigate(URL.CHANNEL(userID, channelType, createdChannel.channelId), { replace: true });
