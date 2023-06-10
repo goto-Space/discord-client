@@ -48,8 +48,8 @@ function Channels({ channelType }) {
     setChannels([...channels, channel]);
   };
 
-  const deleteChannel = (name) => {
-    setChannels(channels.filter((channel) => channel.name !== name));
+  const deleteChannel = (id) => {
+    setChannels(channels.filter((channel) => channel.id !== id));
   };
 
   return (
@@ -111,6 +111,7 @@ function Channels({ channelType }) {
         <ChannelJoinModal
           controller={channelJoinModalController}
           channelType={channelType}
+          addChannel={addChannel}
         />
         )}
       </>

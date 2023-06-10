@@ -53,22 +53,26 @@ export default function ChannelCreateModal({ channelType, controller, addChannel
       channelType,
       channelName,
     });
-    if (response.status !== 200) {
-      const tempChannel = { name: channelName, id: 1 };
-      addChannel(tempChannel);
-      controller.hide();
+    if (response.status !== 201) {
       return fireToast({ message: TOAST_MESSAGE.ERROR.CHANNEL_CREATE, type: 'warning' });
     }
-    const createdChannel = await response.json();
-    if (channelType === CHANNEL_TYPE.CHATTING) {
-      navigate(URL.CHANNEL(userID, channelType, createdChannel.channelId), { replace: true });
-      dispatch(
-        setSelectedChannel({
-          type: channelType,
-          id: createdChannel.channelId,
-          name: createdChannel.name,
-        }),
-      );
+    try {
+      const createdChannel = await response.json();
+      controller.hide();
+      const tempChannel = { name: channelName, id: createdChannel.channelId };
+      addChannel(tempChannel);
+      if (channelType === CHANNEL_TYPE.CHATTING) {
+        navigate(URL.CHANNEL(userID, channelType, createdChannel.channelId), { replace: true });
+        dispatch(
+          setSelectedChannel({
+            type: channelType,
+            id: createdChannel.channelId,
+            name: channelName,
+          }),
+        );
+      }
+    } catch (e) {
+      fireToast({ message: TOAST_MESSAGE.ERROR.CHANNEL_CREATE, type: 'warning' });
     }
   };
   const ChannelCreateForm = (

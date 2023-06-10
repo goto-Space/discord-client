@@ -11,7 +11,7 @@ import Modal from '..';
 import { Input } from './style';
 import { useToast } from '../../../hooks/index';
 
-function ChannelJoinModal({ controller: { hide, show }, channelType }) {
+function ChannelJoinModal({ controller: { hide, show }, channelType, addChannel }) {
   const [channelCode, setChannelCode] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -19,6 +19,7 @@ function ChannelJoinModal({ controller: { hide, show }, channelType }) {
   const updateChannelCode = (newChannelCode: string) => {
     setChannelCode(newChannelCode);
   };
+  const channelId = 3;
 
   const finishModal = () => {
     setChannelCode('');
@@ -26,7 +27,12 @@ function ChannelJoinModal({ controller: { hide, show }, channelType }) {
   };
 
   const joinChannel = async () => {
-    const response = await postJoinChannel({ channelCode });
+    // Change this api
+    const response = await postJoinChannel({
+      channelType,
+      channelId,
+      channelCode,
+    });
     switch (response.status) {
       case 200:
         // eslint-disable-next-line no-case-declarations
@@ -36,6 +42,8 @@ function ChannelJoinModal({ controller: { hide, show }, channelType }) {
         finishModal();
         navigate(URL.GROUP(channel.id), { replace: true });
         fireToast({ message: TOAST_MESSAGE.SUCCESS.GROUP_INVITATION, type: 'success' });
+        // Channel add => Change logic
+        addChannel(3);
         break;
       case 400:
         // eslint-disable-next-line no-case-declarations

@@ -14,10 +14,12 @@ const API_URL = {
       if (prevData && !prevData.length) return null;
       return `/api/channel/${channelID}?page=${index + 1}`;
     },
-    GET_CHANNEL_INVITATION_CODE: (channelID) => `/api/channels/${channelID}/invitation-code`,
+    GET_CHANNEL_INVITATION_CODE: (channelID: number) => `/api/channels/${channelID}/invitation-code`,
     POST_CHAT: (channelID: number) => `/api/channel/${channelID}/create`,
     POST_CREATE_CHANNEL: '/api/channels/',
+    POST_JOIN: (channelID: number) => `/api/channels/${channelID}/join`,
     POST_CHAT_LIKE: (chatID: number) => `/api/chat/${chatID}/reaction`,
+    DELETE_CHANNEL: (channelID: number) => `/api/channels/${channelID}`,
   },
   GROUP: {
     GET_MEMBERS: (groupID: number) => `/api/group/${groupID}/members`,
