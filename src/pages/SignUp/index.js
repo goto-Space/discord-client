@@ -90,7 +90,7 @@ function SignUp() {
     setResponseState({ ...responseState, status, IDresponseText: responseText });
   };
 
-  if (status === 200) {
+  if (status === 201) {
     return <Navigate to="/" replace />;
   }
 
