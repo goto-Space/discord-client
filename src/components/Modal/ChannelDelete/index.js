@@ -4,31 +4,37 @@ import { useNavigate } from 'react-router-dom';
 
 import { resetSelectedChannel } from '../../../redux/selectedChannel/slice';
 import { resetSelectedChat } from '../../../redux/selectedChat/slice';
-import { URL } from '../../../utils/constants/index';
-import { deleteChannel } from '../../../utils/api/deleteChannel';
+import { URL, TOAST_MESSAGE } from '../../../utils/constants/index';
+import { deleteChannel } from '../../../utils/api';
 import Colors from '../../../styles/Colors';
-import { useSelectedChannel } from '../../../hooks/index';
+import { useSelectedChannel, useToast } from '../../../hooks/index';
 import Modal from '..';
 import { AlertWrapper } from './style';
 
-export default function ChannelDeleteModal({ controller }) {
+export default function ChannelDeleteModal({ controller, removeChannel }) {
   const groupID = 1234;
-  const selectedChannel = useSelectedChannel();
+  const { id, name } = useSelectedChannel();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { fireToast } = useToast();
 
   const deleteCurrentChannel = async () => {
-    if (!selectedChannel.id) return;
-    const response = await deleteChannel({
-      groupID,
-      channelType: selectedChannel.type,
-      channelID: selectedChannel.id,
-    });
-    if (response.status === 200) {
-      dispatch(resetSelectedChannel());
-      dispatch(resetSelectedChat());
-      controller.hide();
-      navigate(URL.GROUP(groupID), { replace: true });
+    if (!id) return;
+    try {
+      const response = await deleteChannel({
+        channelID: id,
+      });
+      if (response.status === 204) {
+        removeChannel(id);
+        controller.hide();
+        dispatch(resetSelectedChannel());
+        dispatch(resetSelectedChat());
+        navigate(URL.GROUP(groupID), { replace: true });
+      } else {
+        fireToast({ message: TOAST_MESSAGE.ERROR.COMMON, type: 'warning' });
+      }
+    } catch (e) {
+      fireToast({ message: TOAST_MESSAGE.ERROR.COMMON, type: 'warning' });
     }
   };
 
@@ -36,7 +42,7 @@ export default function ChannelDeleteModal({ controller }) {
     <AlertWrapper>
       정말로
       {' '}
-      <span>{selectedChannel.name}</span>
+      <span>{name}</span>
       {' '}
       채널을 삭제하시겠습니까?
     </AlertWrapper>

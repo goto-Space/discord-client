@@ -22,8 +22,8 @@ function Main() {
         <ChannelHeader />
         {selectedChannel.type ? (
           <Suspense fallback={<Empty message="Loading..." />}>
-            {selectedChannel.type === 'chatting' ? (<Chat />)
-              : (selectedChannel.type === 'meeting' ? <Meet /> : <Empty message="Voice" />)}
+            {selectedChannel.type === 'TEXT' ? (<Chat />)
+              : (selectedChannel.type === 'VIDEO' ? <Meet /> : <Empty message="Voice" />)}
           </Suspense>
         )
           : (

@@ -9,7 +9,6 @@ const Wrapper = styled.div`
   max-width: 400px;
   z-index: 999;
   min-width: 300px;
-  animation: ${(props) => (props.isHidden ? 'zoomOut' : 'zoomIn')} 0.3s forwards;
 
   &:hover {
     cursor: default;
@@ -94,7 +93,6 @@ const Background = styled.div`
   align-items: center;
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 998;
-  animation: ${(props) => (props.isHidden ? 'fadeOut' : 'fadeIn')} 0.3s forwards;
   backdrop-filter: blur(1px);
 
   &:hover {

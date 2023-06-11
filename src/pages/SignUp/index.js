@@ -1,6 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Navigate, Link } from 'react-router-dom';
 
+import {
+  validateID,
+  validateUserName,
+  validatePassword,
+  validateForm,
+  isSendPossible,
+} from '../../utils/index';
+import { SIGN_UP_ERROR_MESSAGE } from '../../utils/constants/index';
+import { postSignUp } from '../../utils/api/index';
 import Background from '../../components/common/Background';
 import {
   SignUpWrapper,
@@ -11,28 +20,107 @@ import {
   ButtonWrapper,
 } from './style';
 
+const {
+  ID_FORM_ERROR, PASSWORD_FORM_ERROR, USERNAME_ERROR, EMPTY_INPUT_ERROR,
+} = SIGN_UP_ERROR_MESSAGE;
+
 function SignUp() {
+  const [inputState, setInputState] = useState({
+    ID: '',
+    userName: '',
+    password: '',
+  });
+
+  const [responseState, setResponseState] = useState({
+    status: 0,
+    IDresponseText: '',
+    userNameResponseText: '',
+    passwordResponseText: '',
+    formResponseText: '',
+  });
+
+  const { ID, userName, password } = inputState;
+  const {
+    status, IDresponseText, userNameResponseText, passwordResponseText, formResponseText,
+  } = responseState;
+
+  const handleIDInputChange = (event: React.FormEvent<HTMLInputElement>): void => {
+    const input = event.currentTarget.value;
+    setInputState({ ...inputState, ID: input });
+    const nowFormResopnseText = validateForm(input, userName, password) ? '' : formResponseText;
+    const nowIDresponseText = validateID(input) ? '' : ID_FORM_ERROR;
+    setResponseState({
+      ...responseState,
+      formResponseText: nowFormResopnseText,
+      IDresponseText: nowIDresponseText,
+    });
+  };
+
+  const handleUserNameInputChange = (event: React.FormEvent<HTMLInputElement>): void => {
+    const input = event.currentTarget.value;
+    setInputState({ ...inputState, userName: input });
+    const nowFormResopnseText = validateForm(ID, input, password) ? '' : formResponseText;
+    const nowUserNameResponseText = validateUserName(input) ? '' : USERNAME_ERROR;
+    setResponseState({
+      ...responseState,
+      formResponseText: nowFormResopnseText,
+      userNameResponseText: nowUserNameResponseText,
+    });
+  };
+
+  const handlePasswordInputChange = (event: React.FormEvent<HTMLInputElement>): void => {
+    const input = event.currentTarget.value;
+    setInputState({ ...inputState, password: input });
+    const nowFormResopnseText = validateForm(ID, userName, input) ? '' : formResponseText;
+    const nowPasswordResponseText = validatePassword(input) ? '' : PASSWORD_FORM_ERROR;
+    setResponseState({
+      ...responseState,
+      formResponseText: nowFormResopnseText,
+      passwordResponseText: nowPasswordResponseText,
+    });
+  };
+  // eslint-disable-next-line consistent-return
+  const signUp = async () => {
+    // eslint-disable-next-line max-len
+    if (!ID || !userName || !password) return setResponseState({ ...responseState, formResponseText: EMPTY_INPUT_ERROR });
+    // eslint-disable-next-line consistent-return
+    if (!isSendPossible(IDresponseText, userNameResponseText, passwordResponseText)) return;
+    // eslint-disable-next-line no-shadow
+    const { status, responseText } = await postSignUp(ID, userName, password);
+    setResponseState({ ...responseState, status, IDresponseText: responseText });
+  };
+
+  if (status === 201) {
+    return <Navigate to="/" replace />;
+  }
+
   return (
     <Background>
       <SignUpWrapper>
-        <Title>회원가입</Title>
-        <InputPart>
-          <label htmlFor="user_name">사용자명</label>
-          <input id="user_name" type="text" />
-          <ErrorResponse>에러</ErrorResponse>
-        </InputPart>
+        <Title>계정 만들기</Title>
         <InputPart>
           <label htmlFor="user_id">아이디</label>
-          <input id="user_id" type="text" />
-          <ErrorResponse>에러</ErrorResponse>
+          <input id="user_id" type="text" value={ID} onInput={handleIDInputChange} />
+          <ErrorResponse>{IDresponseText}</ErrorResponse>
+        </InputPart>
+        <InputPart>
+          <label htmlFor="user_name">사용자명</label>
+          <input id="user_name" type="text" value={userName} onInput={handleUserNameInputChange} />
+          <ErrorResponse>{userNameResponseText}</ErrorResponse>
         </InputPart>
         <InputPart>
           <label htmlFor="user_password">비밀번호</label>
-          <input id="user_password" type="password" />
-          <ErrorResponse>에러</ErrorResponse>
+          <input
+            id="user_password"
+            type="password"
+            value={password}
+            onInput={handlePasswordInputChange}
+          />
+          <ErrorResponse>{passwordResponseText}</ErrorResponse>
+          <ErrorResponse>{formResponseText}</ErrorResponse>
         </InputPart>
         <ButtonWrapper>
-          <SignUpButton>
+          <SignUpButton onClick={signUp}>
             <p>가입하기</p>
           </SignUpButton>
           <div>

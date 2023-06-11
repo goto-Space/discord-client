@@ -9,7 +9,7 @@ function MeetingUserList() {
     <MeetingUserListWrapper>
       <MeetingUserProfileWrapper>
         <MeetingUserProfile
-          src="/public/logo192.png"
+          src="/public/images/gotoSpace_logo.jpg"
           alt=""
         />
       </MeetingUserProfileWrapper>

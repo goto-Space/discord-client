@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 
 import LogoutModal from '../Modal/Logout';
+import { useSelectedChannel } from '../../hooks';
 import { ChannelChattingIcon } from '../common/Icons';
 import { ChannelHeaderWrapper, ChannelHeaderLeft, ChannelHeaderRight } from './style';
 
 function ChannelHeader() {
   const name = 'Shin';
   const [tryLogout, setTryLogOut] = useState(false);
+  const channelName = useSelectedChannel().name;
 
   const logOutModalControl = {
     hide: () => setTryLogOut(false),
@@ -20,7 +22,7 @@ function ChannelHeader() {
           {name !== '' ? (
             <>
               <ChannelChattingIcon />
-              <p>{name}</p>
+              <p>{channelName}</p>
             </>
           ) : (
             ''

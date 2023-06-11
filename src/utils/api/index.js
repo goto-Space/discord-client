@@ -5,3 +5,6 @@ export * from './postJoinChannel';
 export * from './postLogOut';
 export * from './postSignIn';
 export * from './postChat';
+export * from './getChannelInvitationCode';
+export * from './getChannelById';
+export * from './postSignUp';

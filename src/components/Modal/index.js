@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { ModalCloseIcon } from '../common/Icons';
 import {
@@ -18,18 +18,15 @@ function Modal({
   },
   controller: { hide, previous },
 }) {
-  const [hidden, setHidden] = useState(false);
-
   const hideModal = () => {
-    setHidden(() => true);
     setTimeout(() => {
       hide();
     }, 300);
   };
 
   return (
-    <Background onClick={hideModal} isHidden={hidden}>
-      <Wrapper onClick={(e) => e.stopPropagation()} isHidden={hidden}>
+    <Background onClick={hideModal}>
+      <Wrapper onClick={(e) => e.stopPropagation()}>
         <Top>
           <ModalCloseIcon onClick={hideModal} />
         </Top>

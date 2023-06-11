@@ -7,13 +7,13 @@ const postFetchOptions = (body: Body): RequestInit => ({
   headers: {
     'Content-Type': 'application/json',
   },
-  credentials: 'include',
+  // credentials: 'include',
   body: JSON.stringify(body),
 });
 
 const deleteFetchOptions = (): RequestInit => ({
   method: 'DELETE',
-  credentials: 'include',
+  // credentials: 'include',
 });
 
 const patchFetchOptions = (body: Body): RequestInit => ({
@@ -21,7 +21,7 @@ const patchFetchOptions = (body: Body): RequestInit => ({
   headers: {
     'Content-Type': 'application/json',
   },
-  credentials: 'include',
+  // credentials: 'include',
   body: JSON.stringify(body),
 });
 
