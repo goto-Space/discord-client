@@ -6,7 +6,7 @@ const MiddlePart = styled.div`
   border-radius: 6px;
   border: none;
   background-color: ${Colors.Gray3};
-  width: 100%;
+  width: 90%;
 `;
 
 export { MiddlePart };
