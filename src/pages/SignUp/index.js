@@ -79,10 +79,12 @@ function SignUp() {
       passwordResponseText: nowPasswordResponseText,
     });
   };
+  // eslint-disable-next-line consistent-return
   const signUp = async () => {
     // eslint-disable-next-line max-len
-    if (!ID || !userName || !password) setResponseState({ ...responseState, formResponseText: EMPTY_INPUT_ERROR });
-    if (!isSendPossible(IDresponseText, userNameResponseText, passwordResponseText));
+    if (!ID || !userName || !password) return setResponseState({ ...responseState, formResponseText: EMPTY_INPUT_ERROR });
+    // eslint-disable-next-line consistent-return
+    if (!isSendPossible(IDresponseText, userNameResponseText, passwordResponseText)) return;
     // eslint-disable-next-line no-shadow
     const { status, responseText } = await postSignUp(ID, userName, password);
     setResponseState({ ...responseState, status, IDresponseText: responseText });

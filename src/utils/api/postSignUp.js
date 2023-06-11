@@ -1,10 +1,10 @@
 import { API_URL } from '../constants/index';
 import { postFetchOptions } from './fetchOptions';
 
-export const postSignUp = async (loginID: string, username: string, password: string) => {
+export const postSignUp = async (loginId: string, userName: string, password: string) => {
   const response = await fetch(
     API_URL.USER.POST_SIGN_UP,
-    postFetchOptions({ loginID, username, password }),
+    postFetchOptions({ loginId, userName, password }),
   );
   const responseText = await response.text();
 
