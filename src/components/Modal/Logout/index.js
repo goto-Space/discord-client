@@ -1,19 +1,23 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { postLogout } from '../../../utils/api/postLogOut';
-import { URL } from '../../../utils/constants/index';
+import { postLogout } from '../../../utils/api';
+import { TOAST_MESSAGE, URL } from '../../../utils/constants/index';
 import Colors from '../../../styles/Colors';
 import Modal from '..';
 import { MiddlePart } from './style';
+import { useToast } from '../../../hooks';
 
 function LogoutModal({ controller: { hide, show } }) {
   const navigate = useNavigate();
+  const { fireToast } = useToast();
   const logOut = async () => {
     const isSuccess = await postLogout();
     if (isSuccess) {
       navigate(URL.LOGIN, { replace: true });
       window.location.reload();
+    } else {
+      fireToast({ message: TOAST_MESSAGE.ERROR.COMMON, type: 'warning' });
     }
   };
 
