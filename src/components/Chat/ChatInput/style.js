@@ -1,13 +1,14 @@
 import styled from 'styled-components';
 import Colors from '../../../styles/Colors';
 
-const Wrapper = styled.form`
+const Wrapper = styled.div`
   background-color: ${Colors.White};
-  display: grid;
+  display: flex;
   gap: 2px;
+  justify-content: space-between;
   grid-template-columns: auto;
   padding: 0 20px 18px 20px;
-  width: 100%;
+  width: 97%;
 `;
 
 const ChatInputWrapper = styled.div`
@@ -15,7 +16,7 @@ const ChatInputWrapper = styled.div`
   padding: 12px;
   border-radius: 12px;
   box-sizing: border-box;
-  width: 100%;
+  width: 80%;
   & > input {
     outline: none;
     border: none;
@@ -23,5 +24,20 @@ const ChatInputWrapper = styled.div`
     background-color: inherit;
   }
 `;
+const Button = styled.button`
+  border: none;
+  background-color: ${Colors.Gray1};
+  box-sizing: border-box;
+  display: flex;
+  width: 20%;
+  font-size: 20px;
+  justify-content: center;
+  align-items: center;
+  
 
-export { Wrapper, ChatInputWrapper };
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+export { Wrapper, ChatInputWrapper, Button };

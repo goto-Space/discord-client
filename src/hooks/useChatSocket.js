@@ -11,26 +11,24 @@ export const useChatSocket = (chatListRef) => {
   const { id } = useSelectedChannel();
   const { mutate } = useChats(id);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const onChat = useCallback(
-    async (chat) => {
-      await mutate((chats) => {
-        if (!chats) return [[chat]];
-        chats[0].unshift(chat);
-        return [...chats];
-      }, false);
-      if (chatListRef.current === null) return;
-      const { scrollTop, clientHeight, scrollHeight } = chatListRef.current;
-      if (scrollHeight - (scrollTop + clientHeight) < THRESHOLD) scrollToBottom({ smooth: true });
-    },
-  );
+  const onChat = useCallback(async (chat) => {
+    await mutate((chats) => {
+      if (!chats) return [[chat]];
+      chats[0].unshift(chat);
+      return [...chats];
+    }, false);
+    if (chatListRef.current === null) return;
+    const { scrollTop, clientHeight, scrollHeight } = chatListRef.current;
+    if (scrollHeight - (scrollTop + clientHeight) < THRESHOLD) scrollToBottom({ smooth: true });
+  }, [chatListRef, mutate, scrollToBottom]);
 
   useEffect(() => {
     if (id === null) return;
-    Socket.joinChannel({ channelType: 'chatting', id });
+    Socket.joinChannel({ channelType: 'TEXT', id });
 
     // eslint-disable-next-line consistent-return
     return () => {
-      Socket.leaveChannel({ channelType: 'chatting', id });
+      Socket.leaveChannel({ channelType: 'TEXT', id });
     };
   }, [id]);
 

@@ -8,3 +8,5 @@ export * from './postChat';
 export * from './getChannelInvitationCode';
 export * from './getChannelById';
 export * from './postSignUp';
+export * from './getUserById';
+export * from './getUserId';

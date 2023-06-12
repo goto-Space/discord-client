@@ -1,15 +1,29 @@
-import React, { useRef } from 'react';
+import React, { useState } from 'react';
 
-import { ChatInputWrapper } from './style';
+import { ChatInputWrapper, Button, Wrapper } from './style';
 
-function ChatInput() {
-  const chatInputRef = useRef();
+function ChatInput({ onInput }) {
+  const [message, setMessage] = useState('');
+
+  const onSubmitChat = () => {
+    onInput('sender', message);
+    setMessage('');
+  };
 
   return (
-    <ChatInputWrapper>
-      <input ref={chatInputRef} placeholder="Message to channel" type="text" maxLength={255} />
-    </ChatInputWrapper>
-
+    <Wrapper>
+      <ChatInputWrapper>
+        <input
+          placeholder="Message to channel"
+          type="text"
+          maxLength={255}
+          onChange={(e) => {
+            setMessage(e.target.value);
+          }}
+        />
+      </ChatInputWrapper>
+      <Button onClick={onSubmitChat}>전송</Button>
+    </Wrapper>
   );
 }
 
