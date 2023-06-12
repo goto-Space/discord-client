@@ -8,12 +8,15 @@ function ChatInput({ onInput }) {
   const onSubmitChat = () => {
     onInput('sender', message);
     setMessage('');
+    const input = document.getElementById('input');
+    input.value = null;
   };
 
   return (
     <Wrapper>
       <ChatInputWrapper>
         <input
+          id="input"
           placeholder="Message to channel"
           type="text"
           maxLength={255}

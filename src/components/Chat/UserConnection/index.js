@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import {
-  UserConnectionWrapper, Text, UserImage, UserTile,
+  UserConnectionWrapper, Text, UserTile,
 } from './style';
 import { getChannelById, getUserById } from '../../../utils/api';
 
@@ -14,18 +14,20 @@ function UserConnection({ channelId }) {
     return name;
   };
   const getInfo = async () => {
-    console.log(channelId);
     const channelInfo = await getChannelById(channelId);
     const response = await channelInfo.json();
     const { userIds } = response;
+    const newUsers = [];
 
     // eslint-disable-next-line no-restricted-syntax
     for (const userId of userIds) {
       // eslint-disable-next-line no-await-in-loop
       const name = await getUser(userId);
       // if (!users.includes(name)) setUsers([...users, name]);
-      setUsers([...users, name]);
+      newUsers.push(name);
+      // setUsers([...users, name]);
     }
+    setUsers(newUsers);
   };
 
   return (
@@ -38,10 +40,6 @@ function UserConnection({ channelId }) {
       {users.map((user) => (
         <UserTile>
           <div>
-            <UserImage
-              src="../public/images/gotoSpace_logo.jpg"
-              alt="user profile"
-            />
             <div className="on-line" />
           </div>
           <div>{user}</div>

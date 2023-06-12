@@ -11,6 +11,15 @@ const ChatWrapper = styled.div`
   &:hover {
     background-color: ${Colors.Gray5};
   }
+  & > div:nth-child(1) {
+    border-radius: 25px;
+    background-color: ${Colors.Gray1};
+    display: flex;
+    position: relative;
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+  }
 `;
 
 const UserImage = styled.img`
