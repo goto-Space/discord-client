@@ -4,7 +4,7 @@ const API_URL = {
     GET_GROUPS: '/api/user/groups',
     GET_OTHER_USER_DATA: (userID: number) => `/api/user/${userID}/profile`,
     GET_PRESIGNED_URL: '/api/user/presignedurl',
-    GET_USER_ID: (loginId: string) => `/api/users/${loginId}`,
+    GET_USER_ID: (loginId: string) => `/api/users/?loginId=${loginId}`,
     GET_USER_BY_ID: (userId: number) => `/api/users/${userId}`,
     POST_SIGN_IN: '/api/users/login',
     POST_SIGN_OUT: '/api/users/logout',

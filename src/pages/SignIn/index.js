@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { useDispatch } from 'react-redux';
 import { postSignIn } from '../../utils/api/postSignIn';
 import { checkLogin } from '../../utils';
 import { SIGN_IN_ERROR_MESSAGE, URL, STATUS_CODES } from '../../utils/constants';
@@ -16,11 +17,14 @@ import {
   ErrorResponse,
   LinkPart,
 } from './style';
+import { setSelectedUser } from '../../redux/selectedUser/slice';
+import { getUserId } from '../../utils/api';
 
 const { ID_EMPTY_ERROR, PASSWORD_EMPTY_ERROR, LOGIN_FAIL_ERROR } = SIGN_IN_ERROR_MESSAGE;
 
 function SignIn() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [inputState, setInputState] = useState({ ID: '', password: '' });
   const [responseState, setResponseState] = useState({ status: 0, responseText: '' });
   const { ID, password } = inputState;
@@ -48,8 +52,12 @@ function SignIn() {
     try {
       const loginResponse = await postSignIn(ID, password);
       setResponseState({ ...responseState, ...loginResponse });
-      if (loginResponse.status === STATUS_CODES.OK) navigate(URL.GROUP(), { replace: true });
-      else setResponseState({ ...responseState, responseText: LOGIN_FAIL_ERROR });
+      if (loginResponse.status === STATUS_CODES.OK) {
+        const response = await getUserId(ID);
+        const { name } = await response.json();
+        dispatch(setSelectedUser({ loginId: ID, name }));
+        navigate(URL.GROUP(), { replace: true });
+      } else setResponseState({ ...responseState, responseText: LOGIN_FAIL_ERROR });
     } catch (error) {
       console.log(error);
     }

@@ -6,7 +6,7 @@ function ChatInput({ onInput }) {
   const [message, setMessage] = useState('');
 
   const onSubmitChat = () => {
-    onInput('sender', message);
+    onInput(message);
     setMessage('');
     const input = document.getElementById('input');
     input.value = null;

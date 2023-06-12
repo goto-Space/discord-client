@@ -1,4 +1,5 @@
 import React, {
+  useCallback,
   useEffect, useState,
 } from 'react';
 
@@ -24,7 +25,7 @@ import UserConnection from './UserConnection';
         </ChatInputWrapper>
       </ChatWrapper>
  */
-function Chat({ channelId }) {
+function Chat({ channelId, userName }) {
   // const chatListRef = useRef < HTMLDivElement > (null);
   // const { scrollToBottom } = useScroll(chatListRef);
   // const { chats, observedTarget } = useChatInfinite(chatListRef);
@@ -33,33 +34,37 @@ function Chat({ channelId }) {
   const stompClient = Stomp.over(sockJS);
 
   const [contents, setContents] = useState([]);
-  const [beforeChannelId, setBeforeChannelId] = useState(0);
-  console.log('123123123');
-  console.log(beforeChannelId);
+  const [sendSomething, setSendSomething] = useState(false);
+  const [checkChannelId, setCheckChannelId] = useState(null);
+
+  if (checkChannelId !== channelId) {
+    setCheckChannelId(channelId);
+    setContents([]);
+  }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const addMessage = (message) => {
+  const addMessage = useCallback((message) => {
     setContents([...contents, message]);
     console.log(contents);
-  };
+  });
 
   useEffect(() => {
-    if (beforeChannelId === channelId) return;
-    setBeforeChannelId(channelId);
-    setContents([]);
     stompClient.connect({}, () => {
       stompClient.subscribe(`/sub/channels/${channelId}`, (data) => {
         const newMessage = JSON.parse(data.body);
         newMessage.createdAt = new Date().toLocaleTimeString('ko-KR').slice(0, -3);
+        console.log('Use sub');
         addMessage(newMessage);
       });
     });
-  }, [addMessage, channelId, stompClient, beforeChannelId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [channelId, sendSomething]);
 
-  const onInput = (senderName, content) => {
-    const newMessage = { senderName, channelId, content };
+  const onInput = (content) => {
+    const newMessage = { senderName: userName, channelId, content };
     // console.log(newMessage);
     stompClient.send('/pub/text', {}, JSON.stringify(newMessage));
+    setSendSomething(!sendSomething);
   };
 
   // const onInput = useCallback(() => scrollToBottom({ smooth: true }), [scrollToBottom]);
