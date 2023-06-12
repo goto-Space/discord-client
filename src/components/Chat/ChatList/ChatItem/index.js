@@ -1,28 +1,31 @@
 import React from 'react';
 
+// import { useDispatch } from 'react-redux';
 import {
-  ChatWrapper, UserImage, ChatHeader, ChatContent,
+  ChatWrapper, ChatHeader, ChatContent,
 } from './style';
+// import { setSelectedChat } from '../../../../redux/selectedChat/slice';
 
 // 이미지 추가 필요
 function ChatItem({ chatData, newFetched }) {
   const {
-    createdAt,
+    senderName,
     content,
+    createdAt,
   } = chatData;
+  // const dispatch = useDispatch();
+
+  // const selectedChat = () => dispatch(setSelectedChat(chatData));
 
   return (
     <ChatWrapper
       className={newFetched ? 'newFetched' : ''}
     >
-      <UserImage
-        src="/images/default_profile.png"
-        alt="user profile"
-      />
+      <div />
       <div>
         <ChatHeader>
-          <div>UserName</div>
-          <div>{new Date(createdAt).toLocaleTimeString('ko-KR').slice(0, -3)}</div>
+          <div>{senderName}</div>
+          <div>{createdAt}</div>
         </ChatHeader>
         <ChatContent>{content}</ChatContent>
       </div>

@@ -7,3 +7,4 @@ export * from './useChats';
 export * from './useChatSocket';
 // eslint-disable-next-line import/no-cycle
 export * from './useChatInfinite';
+export * from './useSelectedUser';
