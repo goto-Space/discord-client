@@ -86,7 +86,7 @@ function Channels({ channelType }) {
                 showChannelDeleteModal={channelDeleteModalController.show}
                 showChannelInviteModal={channelInviteModalController.show}
               />
-              {(channelType === 'VOICE_ONLY') && (
+              {(channelType === 'VIDEO') && (
                 <MeetingUserList />)}
             </div>
           ))}
