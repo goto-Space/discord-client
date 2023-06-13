@@ -7,15 +7,15 @@ import {
   SpeakerOnIcon,
 } from '../../common/Icons';
 import { DeviceControl, ProfileWrapper } from './style';
+import { useSelectedUser } from '../../../hooks';
 
 function Profile() {
+  const user = useSelectedUser();
   return (
     <ProfileWrapper>
       <div>
-        <div>
-          <img src="/public/logo192.png" alt="" />
-        </div>
-        <p>김산</p>
+        <div />
+        <p>{user.name}</p>
       </div>
       <DeviceControl>
         <div>
