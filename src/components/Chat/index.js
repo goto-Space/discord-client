@@ -1,5 +1,4 @@
 import React, {
-  useCallback,
   useEffect, useState,
 } from 'react';
 
@@ -12,6 +11,7 @@ import { ChatWrapper, Wrapper, ChatInputWrapper } from './style';
 import { Chats } from './ChatList/style';
 import ChatItem from './ChatList/ChatItem';
 import UserConnection from './UserConnection';
+import { useSelectedChannel, useSelectedUser } from '../../hooks';
 // import { useSelectedChannel } from '../../hooks';
 /*
       <ChatWrapper>
@@ -25,36 +25,48 @@ import UserConnection from './UserConnection';
         </ChatInputWrapper>
       </ChatWrapper>
  */
-function Chat({ channelId, userName }) {
+function Chat() {
   // const chatListRef = useRef < HTMLDivElement > (null);
   // const { scrollToBottom } = useScroll(chatListRef);
   // const { chats, observedTarget } = useChatInfinite(chatListRef);
-  // const { id: channelId } = useSelectedChannel();
+  const { id: channelId } = useSelectedChannel();
+  const { name: userName } = useSelectedUser();
   const sockJS = new SockJS('https://localhost:8443/stomp/chat');
   const stompClient = Stomp.over(sockJS);
 
   const [contents, setContents] = useState([]);
   const [sendSomething, setSendSomething] = useState(false);
   const [checkChannelId, setCheckChannelId] = useState(null);
+  console.log('sesesese');
 
   if (checkChannelId !== channelId) {
     setCheckChannelId(channelId);
     setContents([]);
   }
 
+  // Som
   // eslint-disable-next-line react-hooks/exhaustive-deps
+  /*
   const addMessage = useCallback((message) => {
     setContents([...contents, message]);
     console.log(contents);
   });
+   */
 
   useEffect(() => {
     stompClient.connect({}, () => {
       stompClient.subscribe(`/sub/channels/${channelId}`, (data) => {
-        const newMessage = JSON.parse(data.body);
-        newMessage.createdAt = new Date().toLocaleTimeString('ko-KR').slice(0, -3);
+        const Messages = JSON.parse(data.body);
+        console.log(Messages);
+        // eslint-disable-next-line no-restricted-syntax
+        setContents(Messages.textLogResponseLogs);
+        /*
+        for (const message of Messages.Text) {
+          addMessage(message);
+        }
+         */
         console.log('Use sub');
-        addMessage(newMessage);
+        // addMessage(newMessage);
       });
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -62,6 +74,7 @@ function Chat({ channelId, userName }) {
 
   const onInput = (content) => {
     const newMessage = { senderName: userName, channelId, content };
+    newMessage.createdAt = new Date().toLocaleTimeString('ko-KR').slice(0, -3);
     // console.log(newMessage);
     stompClient.send('/pub/text', {}, JSON.stringify(newMessage));
     setSendSomething(!sendSomething);
