@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { useSelectedChannel, useSelectedUser } from '../../hooks';
+import { useSelectedChannel } from '../../hooks';
 import ChannelHeader from '../../components/ChannelHeader';
 import Chat from '../../components/Chat';
 import SideBar from '../../components/SideBar';
@@ -14,7 +14,6 @@ const EMPTY_MESSAGE = '채널을 고르세요';
  */
 function Main() {
   const selectedChannel = useSelectedChannel();
-  const selectedUser = useSelectedUser();
 
   return (
     <Layout>
@@ -23,7 +22,7 @@ function Main() {
         <ChannelHeader />
         {selectedChannel.type ? (
           <Suspense fallback={<Empty message="Loading..." />}>
-            {selectedChannel.type === 'TEXT' ? (<Chat channelId={selectedChannel.id} userName={selectedUser.name} />)
+            {selectedChannel.type === 'TEXT' ? (<Chat />)
               : (selectedChannel.type === 'VIDEO' ? <Meet /> : <Empty message="Voice" />)}
           </Suspense>
         )
