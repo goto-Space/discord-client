@@ -5,6 +5,7 @@ import Chat from '../../components/Chat';
 import SideBar from '../../components/SideBar';
 import Empty from '../../components/common/Empty';
 import Meet from '../../components/Meet';
+import Voice from '../../components/Voice';
 import { EmptyWrapper, Layout, MainWrapper } from './style';
 
 const EMPTY_MESSAGE = '채널을 고르세요';
@@ -23,7 +24,7 @@ function Main() {
         {selectedChannel.type ? (
           <Suspense fallback={<Empty message="Loading..." />}>
             {selectedChannel.type === 'TEXT' ? (<Chat />)
-              : (selectedChannel.type === 'VIDEO' ? <Meet /> : <Empty message="Voice" />)}
+              : (selectedChannel.type === 'VIDEO' ? <Meet /> : <Voice />)}
           </Suspense>
         )
           : (
